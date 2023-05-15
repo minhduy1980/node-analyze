@@ -1,0 +1,27 @@
+version: "2"
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:9.3.2
+    user: ":"
+    ports:
+      - 3999:3000
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:latest
+    restart: always
+    ports:
+      - "9100:9100"
+volumes:
+  grafana_data:
